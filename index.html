@@ -141,6 +141,27 @@ body {
   transform: scale(0.93);
   background: #fff3d6;
 }
+.mode-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+.mode-btn {
+  font-size: min(7vw, 32px);
+  font-weight: bold;
+  padding: 16px 28px;
+  border: 4px solid #f5a623;
+  border-radius: 20px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s;
+}
+.mode-btn:active {
+  transform: scale(0.93);
+  background: #fff3d6;
+}
 .credits {
   margin-top: 30px;
   font-size: min(3vw, 13px);
@@ -159,7 +180,10 @@ body {
 <body>
 <div id="start-screen">
   <div class="start-title">🍎 たしざんゲーム 🍎</div>
-  <button id="start-btn">スタート</button>
+  <div class="mode-buttons">
+    <button class="mode-btn" data-mode="easy">かんたん</button>
+    <button class="mode-btn" data-mode="hard">むずかしい</button>
+  </div>
   <div class="credits">
     <p>効果音: <a href="https://otologic.jp/" target="_blank">OtoLogic</a></p>
     <p>BGM: <a href="https://amachamusic.chagasi.com" target="_blank">甘茶の音楽工房</a></p>
@@ -180,11 +204,16 @@ const bgm = new Audio('data:audio/mpeg;base64,SUQzAwAAAAAfdlRZRVIAAAAFAAAAMjAxNl
 bgm.loop = true;
 bgm.volume = 0.15;
 
-document.getElementById('start-btn').addEventListener('click', () => {
-  document.getElementById('start-screen').style.display = 'none';
-  document.getElementById('game').style.display = 'block';
-  bgm.play();
-  newQuestion();
+let mode = 'easy';
+
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    mode = btn.dataset.mode;
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('game').style.display = 'block';
+    bgm.play();
+    newQuestion();
+  });
 });
 
 let a, b, answer;
@@ -220,8 +249,15 @@ function buildPyramid(count, imgClass) {
 }
 
 function newQuestion() {
-  a = Math.floor(Math.random() * 9) + 1;
-  b = Math.floor(Math.random() * 9) + 1;
+  if (mode === 'easy') {
+    // かんたん: 答えが9以下（a: 1〜8, b: 1〜(9-a)）
+    a = Math.floor(Math.random() * 8) + 1;
+    b = Math.floor(Math.random() * (9 - a)) + 1;
+  } else {
+    // むずかしい: 1〜9の自由な足し算
+    a = Math.floor(Math.random() * 9) + 1;
+    b = Math.floor(Math.random() * 9) + 1;
+  }
   answer = a + b;
 
   document.getElementById('question').textContent = `${a} + ${b} = ?`;
@@ -237,10 +273,11 @@ function newQuestion() {
   applesDiv.appendChild(buildPyramid(b));
 
   // 選択肢生成
+  const maxAnswer = mode === 'easy' ? 9 : 18;
   const choices = new Set([answer]);
   while (choices.size < 4) {
     let wrong = answer + Math.floor(Math.random() * 7) - 3;
-    if (wrong > 1 && wrong <= 18 && wrong !== answer) choices.add(wrong);
+    if (wrong > 1 && wrong <= maxAnswer && wrong !== answer) choices.add(wrong);
   }
   const shuffled = [...choices].sort(() => Math.random() - 0.5);
 
