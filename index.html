@@ -141,12 +141,30 @@ body {
   transform: scale(0.93);
   background: #fff3d6;
 }
+.credits {
+  margin-top: 30px;
+  font-size: min(3vw, 13px);
+  color: #999;
+  line-height: 1.8;
+}
+.credits a {
+  color: #999;
+  text-decoration: none;
+}
+.credits a:hover {
+  text-decoration: underline;
+}
 </style>
 </head>
 <body>
 <div id="start-screen">
   <div class="start-title">🍎 たしざんゲーム 🍎</div>
   <button id="start-btn">スタート</button>
+  <div class="credits">
+    <p>効果音: <a href="https://otologic.jp/" target="_blank">OtoLogic</a></p>
+    <p>BGM: <a href="https://amachamusic.chagasi.com" target="_blank">甘茶の音楽工房</a></p>
+    <p>イラスト: <a href="https://eiyoushi-hutaba.com/" target="_blank">フタバのフリーイラスト</a></p>
+  </div>
 </div>
 <div id="game" style="display:none;">
   <div id="question"></div>
