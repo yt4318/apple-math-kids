@@ -47,8 +47,8 @@ body {
   gap: 2px;
 }
 .apple-dice img {
-  width: min(7vw, 30px);
-  height: min(7vw, 30px);
+  width: min(10vw, 44px);
+  height: min(10vw, 44px);
 }
 #apples .plus {
   font-size: min(8vw, 40px);
@@ -59,18 +59,18 @@ body {
 #choices {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  max-width: 380px;
+  gap: 14px;
+  max-width: 440px;
   margin: 0 auto;
 }
 .choice-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  font-size: min(10vw, 44px);
+  gap: 6px;
+  font-size: min(12vw, 52px);
   font-weight: bold;
-  padding: 10px 8px;
+  padding: 14px 10px;
   border: 4px solid #f5a623;
   border-radius: 20px;
   background: #fff;
@@ -94,8 +94,8 @@ body {
   gap: 1px;
 }
 .choice-apples img {
-  width: min(4.5vw, 18px);
-  height: min(4.5vw, 18px);
+  width: min(7vw, 28px);
+  height: min(7vw, 28px);
 }
 #overlay {
   position: fixed;
@@ -260,9 +260,9 @@ function buildDice(count, cls) {
     const gap = parseFloat(getComputedStyle(row2).gap) || 2;
     const shift = (imgSize ? imgSize.offsetWidth : 0) / 2 + gap / 2;
     // CSSで対応: paddingLeftで半個分ずらす
-    row1.style.paddingLeft = 'calc((min(7vw, 30px) + 2px) / 2)';
+    row1.style.paddingLeft = 'calc((min(10vw, 44px) + 2px) / 2)';
     if (cls === 'choice-apples') {
-      row1.style.paddingLeft = 'calc((min(4.5vw, 18px) + 1px) / 2)';
+      row1.style.paddingLeft = 'calc((min(7vw, 28px) + 1px) / 2)';
     }
   }
   return container;
